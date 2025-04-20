@@ -1,0 +1,25 @@
+{% extends "users/base.html" %}
+{% block content %}
+<div class="container">
+    <h1>Trainee Signup</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }}:</label>
+                {{ field }}
+                {% if field.help_text %}
+                    <p class="required-info">{{ field.help_text }}</p>
+                {% endif %}
+                {% for error in field.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit">Signup</button>
+    </form>
+    <div class="login-link">
+        Already have an account? <a href="{% url 'trainee_login' %}">Login</a>
+    </div>
+</div>
+{% endblock %}

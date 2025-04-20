@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Choose Login</title>
+</head>
+<body>
+    <h2>Welcome to Gym Management</h2>
+    <p>Please choose your role to login or sign up:</p>
+
+    <a href="{% url 'trainer_login' %}">Trainer Login</a> |
+    <a href="{% url 'trainer_signup' %}">Trainer Signup</a>
+    <br><br>
+    <a href="{% url 'trainee_login' %}">Trainee Login</a> |
+    <a href="{% url 'trainee_signup' %}">Trainee Signup</a>
+</body>
+</html>

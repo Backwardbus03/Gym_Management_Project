@@ -16,7 +16,6 @@ class Trainee(models.Model):
         limit_choices_to={'role': 'trainer'},
         related_name='assigned_trainees'
     )
-    goal = models.TextField()
 
     def clean(self):
         if self.user.role.lower() != 'trainee':

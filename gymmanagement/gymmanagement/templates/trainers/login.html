@@ -1,0 +1,22 @@
+{% extends "users/base.html" %}
+{% block content %}
+<div class="login-box">
+    <h2>Trainer Login</h2>
+    {% if messages %}
+        {% for message in messages %}
+            <p class="error">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button class="btn" type="submit">Login</button>
+    </form>
+    <div class="divider"><span>or</span></div>
+    <div class="signup-section">
+        <p>Don't have a trainer account?</p>
+        <a href="{% url 'trainer_signup' %}" class="signup-link">Sign up as Trainer</a>
+    </div>
+</div>
+{% endblock %}

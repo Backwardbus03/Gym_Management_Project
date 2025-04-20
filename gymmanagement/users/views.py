@@ -9,24 +9,19 @@ class CustomSignupForm(UserCreationForm):
     ROLE_CHOICES = (
         ('trainer', 'Trainer'),
         ('trainee', 'Trainee'),
-        ('admin', 'Admin')
     )
     role = forms.ChoiceField(choices=ROLE_CHOICES)
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'role', 'password1', 'password2']
+        fields = ('username', 'email', 'password1', 'password2', 'role')
 
-def signup(request):
-    if request.method == 'POST':
-        form = CustomSignupForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('users/login')
-    else:
-        form = CustomSignupForm()
-    return render(request, 'users/signup.html', {'form': form})
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.role = self.cleaned_data['role']  # this is crucial!
+        if commit:
+            user.save()
+        return user
 
 def user_login(request):
     if request.method == 'POST':
@@ -38,7 +33,7 @@ def user_login(request):
         if user is not None:
             login(request, user)
 
-            # Redirect based on role
+            # Redirect based on the role
             if user.role == 'trainer':
                 return redirect('trainers')
             elif user.role == 'trainee':
@@ -48,7 +43,7 @@ def user_login(request):
         else:
             messages.error(request, 'Invalid username or password')
 
-    return render(request, 'users/ai_login.html')
+    return render(request, 'users/role_login_redirect.html')
 
 def user_logout(request):
     logout(request)

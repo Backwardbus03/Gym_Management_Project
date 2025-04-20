@@ -192,8 +192,7 @@
                 <label for="role">Role:</label>
                 <select id="role">
                     <option>Trainer</option>
-                    <option>Student</option>
-                    <option>Administrator</option>
+                    <option>Trainee</option>
                 </select>
             </div>
 
@@ -221,7 +220,7 @@
         </form>
 
         <div class="login-link">
-            Already have an account? <a href="login/">Login</a>
+            Already have an account? <a href="{% url 'login' %}">Login</a>
         </div>
     </div>
 </body>

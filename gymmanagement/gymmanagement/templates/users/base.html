@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login | Gym Management</title>
+    <title>{% block title %}Gym Management{% endblock %}</title>
     <style>
         :root {
             --primary-orange: #ff7b00;
@@ -116,37 +116,12 @@
         }
 
         .signup-link:hover {
-            color: var(--muted-orange);
-            text-decoration: underline;
+          color: var(--muted-orange);
+          text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <div class="login-box">
-        <h2>Login</h2>
-
-        <!-- Display error messages -->
-        {% if messages %}
-            {% for message in messages %}
-                <p class="error">{{ message }}</p>
-            {% endfor %}
-        {% endif %}
-
-        <!-- Login form -->
-        <form method="post">
-            {% csrf_token %}
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button class="btn" type="submit">Login</button>
-        </form>
-        <div class="divider">
-            <span>or</span>
-        </div>
-
-        <div class="signup-section">
-            <p>Don't have an account?</p>
-                <a href="{% url 'signup' %}" class="signup-link">Sign up as a new user</a>
-        </div>
-    </div>
+    {% block content %}{% endblock %}
 </body>
 </html>
