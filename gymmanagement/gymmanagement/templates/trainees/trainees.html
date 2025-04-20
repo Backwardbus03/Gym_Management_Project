@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trainees Panel</title>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'trainers' %}">Trainers Panel</a>
+        <a href="{% url 'trainees' %}">Trainees Panel</a>
+    </div>
+    <div class="content">
+        <h1>Trainees Panel</h1>
+        <ul>
+            {% for user in users %}
+            <li>{{ user.first_name }} {{ user.last_name }} - {{ user.email }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

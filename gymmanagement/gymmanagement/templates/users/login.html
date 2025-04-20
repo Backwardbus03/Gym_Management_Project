@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Gym Management</title>
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="panel trainer">
+            <div class="tag">TRAINER</div>
+            <h2>For <strong>Trainers</strong></h2>
+            <p>Manage trainees, create routines, and track progress easily.</p>
+            <a href="{% url 'trainer_login' %}" class="login-btn">Login</a>
+            <p class="footer">Don’t have an account?<br><a href="#">Contact admin</a></p>
+        </div>
+
+        <div class="panel trainee">
+            <div class="tag">TRAINEE</div>
+            <h2>For <strong>Trainees</strong></h2>
+            <p>Track your goals, access your routines, and stay consistent.</p>
+            <a href="{% url 'trainee_login' %}" class="login-btn alt">Login</a>
+            <p class="footer">Don’t have an account?<br><a href="#">Sign up</a></p>
+        </div>
+    </div>
+</body>
+</html>
