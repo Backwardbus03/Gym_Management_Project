@@ -1,15 +1,228 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Signup</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        :root {
+            --primary-orange: #ff7b00;
+            --muted-orange: #e06000;
+            --dark-orange: #c05000;
+            --black: #1a1a1a;
+            --dark-gray: #242424;
+            --light-gray: #f5f5f5;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--black);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .container {
+            background-color: var(--dark-gray);
+            padding: 2rem;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--muted-orange), var(--primary-orange));
+        }
+
+        h1 {
+            color: var(--white);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .required-info {
+            color: var(--primary-orange);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            background-color: var(--light-gray);
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 0 3px rgba(255, 123, 0, 0.2);
+        }
+
+        .password-requirements {
+            background-color: rgba(255, 123, 0, 0.1);
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+        }
+
+        .password-requirements ul {
+            list-style-type: none;
+        }
+
+        .password-requirements li {
+            color: var(--white);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .password-requirements li::before {
+            content: "•";
+            color: var(--primary-orange);
+            position: absolute;
+            left: 0;
+        }
+
+        .confirmation-note {
+            color: var(--white);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 0.875rem;
+            background-color: var(--muted-orange);
+            color: var(--white);
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            margin-top: 1.5rem;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--primary-orange);
+        }
+
+        button[type="submit"]:active {
+            transform: scale(0.98);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--white);
+            font-size: 0.875rem;
+        }
+
+        .login-link a {
+            color: var(--primary-orange);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .login-link a:hover {
+            color: var(--muted-orange);
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h2>Signup</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Signup</button>
-    </form>
-    <a href="{% url 'login' %}">Already have an account? Login</a>
+    <div class="container">
+        <h1>Signup</h1>
+
+        <form>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" maxlength="150" required>
+                <p class="required-info">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email address:</label>
+                <input type="email" id="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="role">Role:</label>
+                <select id="role">
+                    <option>Trainer</option>
+                    <option>Student</option>
+                    <option>Administrator</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" required>
+
+                <div class="password-requirements">
+                    <ul>
+                        <li>Your password can't be too similar to your other personal information.</li>
+                        <li>Your password must contain at least 8 characters.</li>
+                        <li>Your password can't be a commonly used password.</li>
+                        <li>Your password can't be entirely numeric.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password-confirm">Password confirmation:</label>
+                <input type="password" id="password-confirm" required>
+                <p class="confirmation-note">Enter the same password as before, for verification.</p>
+            </div>
+
+            <button type="submit">Signup</button>
+        </form>
+
+        <div class="login-link">
+            Already have an account? <a href="login/">Login</a>
+        </div>
+    </div>
 </body>
 </html>

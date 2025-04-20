@@ -57,7 +57,7 @@ ROOT_URLCONF = 'gymmanagement.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'gymmanagement' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,5 +127,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Optional (for collecting static files in production):
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / "gymmanagement" / "static",
 ]
+

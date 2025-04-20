@@ -23,10 +23,10 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('login')
+            return redirect('users/login')
     else:
         form = CustomSignupForm()
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'users/signup.html', {'form': form})
 
 def user_login(request):
     if request.method == 'POST':
@@ -48,11 +48,11 @@ def user_login(request):
         else:
             messages.error(request, 'Invalid username or password')
 
-    return render(request, 'ai_login.html')
+    return render(request, 'users/ai_login.html')
 
 def user_logout(request):
     logout(request)
-    return redirect('login')
+    return redirect('users/login')
 
 def index(request):
-    return render(request, 'home.html')
+    return render(request, 'users/home.html')

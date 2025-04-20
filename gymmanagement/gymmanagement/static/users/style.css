@@ -1,3 +1,13 @@
+:root {
+    --primary-orange: #ff7b00;
+    --muted-orange: #e06000;
+    --dark-orange: #c05000;
+    --black: #1a1a1a;
+    --dark-gray: #242424;
+    --light-gray: #f5f5f5;
+    --white: #ffffff;
+}
+
 /* GLOBAL STYLES */
 * {
     margin: 0;
@@ -8,12 +18,14 @@
 body, html {
     height: 100%;
     font-family: 'Arial', sans-serif;
+    background-color: var(--light-gray); /* Light gray background */
+    color: var(--black); /* Default text color */
 }
 
 /* HERO SECTION (Homepage Banner) */
 .hero {
     height: 100vh;
-    background: url('users/gym.png') no-repeat center center/cover;
+    background: url('gym.jpg') no-repeat center center/cover;
     display: flex;
     align-items: center;
     position: relative;
@@ -36,7 +48,7 @@ body, html {
 }
 
 .navbar a {
-    color: white;
+    color: var(--white); /* White text for navbar links */
     text-decoration: none;
     font-weight: bold;
     font-size: 18px;
@@ -44,15 +56,17 @@ body, html {
 }
 
 .navbar a:hover {
-    color: #ff3c00;
+    color: var(--primary-orange); /* Primary orange on hover */
 }
 
 .content {
-    color: white;
+    color: var(--white); /* White text for content */
     max-width: 500px;
-    margin-top: 50px;
-    margin-left: 60px;
-    text-align: left;
+    position: absolute;
+    top: 50%;
+    right: 10%;
+    transform: translateY(-50%);
+    text-align: right;
 }
 
 .content h1 {
@@ -61,7 +75,7 @@ body, html {
 }
 
 .content h1 span {
-    color: #ff3c00;
+    color: var(--primary-orange); /* Highlighted text in primary orange */
 }
 
 .content p {
@@ -71,8 +85,8 @@ body, html {
 
 .start-button {
     padding: 12px 25px;
-    background-color: #ff3c00;
-    color: white;
+    background-color: var(--primary-orange); /* Primary orange button */
+    color: var(--white); /* White text */
     text-decoration: none;
     font-weight: bold;
     border-radius: 5px;
@@ -80,7 +94,7 @@ body, html {
 }
 
 .start-button:hover {
-    background-color: #e23400;
+    background-color: var(--muted-orange); /* Muted orange on hover */
 }
 
 /* SPLIT LOGIN PAGE */
@@ -94,7 +108,7 @@ body, html {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    background: white;
+    background: var(--white); /* White background for container */
 }
 
 .panel {
@@ -107,17 +121,17 @@ body, html {
 }
 
 .trainer {
-    border-right: 1px solid #dee2e6;
+    border-right: 1px solid var(--light-gray); /* Light gray border */
 }
 
 .trainee {
-    background-color: #f9f9f9;
+    background-color: var(--light-gray); /* Light gray background */
 }
 
 .tag {
     display: inline-block;
-    background-color: #000;
-    color: #fff;
+    background-color: var(--black); /* Black background for tags */
+    color: var(--white); /* White text */
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 12px;
@@ -127,19 +141,20 @@ body, html {
 .panel h2 {
     font-size: 28px;
     margin-bottom: 15px;
+    color: var(--black); /* Black text for headings */
 }
 
 .panel p {
     font-size: 16px;
-    color: #555;
+    color: var(--dark-gray); /* Dark gray text for paragraphs */
     margin-bottom: 25px;
 }
 
 .login-btn {
     display: inline-block;
     padding: 12px 30px;
-    background-color: #000;
-    color: #fff;
+    background-color: var(--black); /* Black button */
+    color: var(--white); /* White text */
     text-decoration: none;
     font-weight: bold;
     border-radius: 5px;
@@ -147,27 +162,28 @@ body, html {
 }
 
 .login-btn.alt {
-    background-color: #fff;
-    color: #000;
-    border: 2px solid #000;
+    background-color: var(--white); /* White button */
+    color: var(--black); /* Black text */
+    border: 2px solid var(--black); /* Black border */
 }
 
 .login-btn:hover {
-    background-color: #333;
+    background-color: var(--dark-gray); /* Dark gray on hover */
 }
 
 .login-btn.alt:hover {
-    background-color: #000;
-    color: #fff;
+    background-color: var(--black); /* Black background on hover */
+    color: var(--white); /* White text */
 }
 
 .footer {
     margin-top: 20px;
     font-size: 14px;
+    color: var(--dark-gray); /* Dark gray text */
 }
 
 .footer a {
-    color: #28a745;
+    color: var(--primary-orange); /* Primary orange links */
     text-decoration: none;
     font-weight: bold;
 }
