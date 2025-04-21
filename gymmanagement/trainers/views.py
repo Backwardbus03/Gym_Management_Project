@@ -142,3 +142,21 @@ def view_attendance(request):
         'attendance_data': attendance_data,
         'date': today,
     })
+
+@login_required
+def workout_summary(request):
+    trainer = get_object_or_404(Trainer, user=request.user)
+
+    # Get all trainees assigned to this trainer
+    trainees = trainer.get_assigned_trainees()
+
+    # Get all activities for these trainees (not just today)
+    activities = Activity.objects.filter(trainee__in=trainees)
+
+    # Get all weight logs for these trainees (not just today)
+    workouts = WeightLog.objects.filter(trainee__in=trainees)
+    combined = list(sorted(zip(activities, workouts), key=lambda x: x[0].date))
+
+    return render(request, 'trainers/workout_summary.html', {
+        "combined": combined,
+    })

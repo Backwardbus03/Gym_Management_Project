@@ -4,15 +4,11 @@
 <div class="login-box">
     <h2>Workout Summary</h2>
     <ul>
-    {% for activity in activities %}
+    {% for activity, workout in combined %}
         <li>{{ activity.date }} - {{ activity.trainee.user.username }}: {{ activity.name }} for {{ activity.duration_minutes }} mins</li>
-    {% empty %}
-        <li>No activities found.</li>
-    {% endfor %}
-    {% for workout in workouts %}
         <li>{{ workout.date }} - {{ workout.trainee.user.username }}: Lifted weights of {{ workout.weight_kg}} in kgs</li>
     {% empty %}
-        <li>No workouts found.</li>
+        <li>No activities found.</li>
     {% endfor %}
     </ul>
     <div class="signup-section">

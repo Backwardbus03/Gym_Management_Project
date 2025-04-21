@@ -7,21 +7,18 @@
         <h2>Welcome, {{ user.username }}</h2>
 
         <div class="section">
-            <h3>Today's Activities</h3>
-            {% for activity in todays_activities %}
-                <p>{{ activity.trainee.user.username }}: {{ activity.name }} for {{ activity.duration_minutes }} mins</p>
-            {% empty %}
-                <p>No activities logged today.</p>
-            {% endfor %}
+            <h3>Today's Summary</h3>
+            <form method="post" action="{% url 'trainer_workouts' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn" style="width: fit-content; margin-bottom: 10px">WorkOut Summary</button>
+            </form>
         </div>
 
         <div class="section">
-            <h3>Today's Weight Logs</h3>
-            {% for log in todays_weights %}
-                <p>{{ log.trainee.user.username }}: {{ log.weight_kg }} kg</p>
-            {% empty %}
-                <p>No weight logs today.</p>
-            {% endfor %}
+            <form method="post" action="{% url 'trainer_attendance' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn" style="width: fit-content; margin-bottom: 10px">Trainee Attendance</button>
+            </form>
         </div>
 
         <div class="signup-section" style="margin-top: 30px;">
@@ -42,8 +39,6 @@
                     <tr>
                         <th>Username</th>
                         <th>Recommendation</th>
-                        <th>Summary</th>
-                        <th>Attendance</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,8 +46,6 @@
                         <tr>
                             <td>{{ trainee.user.username }}</td>
                             <td><a href="{% url 'push_recommendation' trainee.id %}" class="signup-link">Send</a></td>
-                            <td><a href="{% url 'trainer_workouts' %}?trainee_id={{ trainee.id }}" class="signup-link">View</a></td>
-                            <td><a href="{% url 'trainer_attendance' %}?trainee_id={{ trainee.id }}" class="signup-link">View</a></td>
                         </tr>
                     {% empty %}
                         <tr><td colspan="4">No trainees assigned.</td></tr>
