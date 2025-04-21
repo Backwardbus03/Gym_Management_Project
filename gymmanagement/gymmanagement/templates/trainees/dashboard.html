@@ -1,0 +1,44 @@
+{% extends 'users/base.html' %}
+{% block title %}Trainee Dashboard{% endblock %}
+
+{% block content %}
+<div class="login-box">
+    <h2>Welcome, {{ user.username }}</h2>
+
+    <div class="section">
+        <h3>Weekly Summary</h3>
+        <p>Total Minutes: <strong>{{ weekly_minutes }}</strong></p>
+        <p>Total Calories Burned: <strong>{{ weekly_calories }}</strong></p>
+    </div>
+
+    <div class="section">
+        <h3>Weight Progress</h3>
+        {% if weight_logs %}
+            <ul>
+                {% for log in weight_logs %}
+                    <li>{{ log.date }} - {{ log.weight_kg }} kg</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No weight logs yet.</p>
+        {% endif %}
+    </div>
+
+    <div class="section">
+        <h3>Today’s Recommendation</h3>
+        <p>{{ recommendation }}</p>
+    </div>
+
+    <div class="signup-section">
+        <a href="{% url 'log_activity' %}" class="signup-link">Log Activity</a> |
+        <a href="{% url 'log_weight' %}" class="signup-link">Log Weight</a>
+    </div>
+
+    <div class="signup-section" style="margin-top: 30px;">
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn">Logout</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

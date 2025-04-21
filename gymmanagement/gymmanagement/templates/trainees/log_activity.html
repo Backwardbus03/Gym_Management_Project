@@ -1,0 +1,16 @@
+{% extends 'users/base.html' %}
+{% block title %}Log Activity{% endblock %}
+
+{% block content %}
+<div class="login-box">
+    <h2>Log New Activity</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Save Activity</button>
+    </form>
+    <div class="signup-section">
+        <a href="{% url 'trainee_dashboard' %}" class="signup-link">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

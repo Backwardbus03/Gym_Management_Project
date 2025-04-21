@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django import forms
 from users.models import CustomUser
-from .models import Trainer
+from trainees.models import Trainee
+from .models import *
 from django.core.exceptions import ValidationError
 
 
@@ -79,5 +80,67 @@ def trainer_login(request):
     return render(request, 'trainers/login.html')
 
 @login_required
-def dashboard(request):
-    return render(request, 'trainers/trainers.html')
+def trainer_dashboard(request):
+    trainer = get_object_or_404(Trainer, user=request.user)
+    trainees = trainer.get_assigned_trainees()
+    todays_activities = trainer.get_todays_activities()
+    todays_weights = trainer.get_todays_weight_logs()
+    return render(request, 'trainers/dashboard.html', {
+        'trainer': trainer,
+        'trainees': trainees,
+        'todays_activities': todays_activities,
+        'todays_weights': todays_weights,
+    })
+
+@login_required
+def push_recommendation(request, trainee_id):
+    trainer = get_object_or_404(Trainer, user=request.user)
+    trainee = get_object_or_404(Trainee, id=trainee_id, trainer=trainer.user)
+
+    if request.method == 'POST':
+        message = request.POST.get('message')
+        if message:
+            Recommendation.objects.create(trainer=trainer, trainee=trainee, message=message)
+            return redirect('trainer_dashboard')
+
+    return render(request, 'trainers/push_recommendation.html', {
+        'trainee': trainee
+    })
+
+@login_required
+def workout_summary(request):
+    trainer = get_object_or_404(Trainer, user=request.user)
+
+    # Get all activities from trainer’s assigned trainees
+    trainees = trainer.get_assigned_trainees()
+    activities = Activity.objects.filter(trainee__in=trainees).order_by('-date')
+
+    return render(request, 'trainers/workout_summary.html', {
+        'activities': activities,
+        'trainer': trainer,
+    })
+
+from django.utils.timezone import now
+from .models import Activity, WeightLog
+
+@login_required
+def view_attendance(request):
+    trainer = get_object_or_404(Trainer, user=request.user)
+    today = now().date()
+
+    trainees = trainer.get_assigned_trainees()
+
+    # Check if each trainee has an activity or weight log for today
+    attendance_data = []
+    for trainee in trainees:
+        has_activity = Activity.objects.filter(trainee=trainee, date=today).exists()
+        has_weight = WeightLog.objects.filter(trainee=trainee, date=today).exists()
+        attendance_data.append({
+            'trainee': trainee,
+            'present': has_activity or has_weight,
+        })
+
+    return render(request, 'trainers/view_attendance.html', {
+        'attendance_data': attendance_data,
+        'date': today,
+    })

@@ -1,0 +1,59 @@
+{% extends 'users/base.html' %}
+{% block title %}Trainer Dashboard{% endblock %}
+{% block content %}
+<div class="login-box">
+    <h2>Welcome, {{ user.username }}</h2>
+
+    <div class="section">
+        <h3>Today's Activities</h3>
+        {% for activity in todays_activities %}
+            <p>{{ activity.trainee.user.username }}: {{ activity.name }} for {{ activity.duration_minutes }} mins</p>
+        {% empty %}
+            <p>No activities logged today.</p>
+        {% endfor %}
+    </div>
+
+    <div class="section">
+        <h3>Today's Weight Logs</h3>
+        {% for log in todays_weights %}
+            <p>{{ log.trainee.user.username }}: {{ log.weight_kg }} kg</p>
+        {% empty %}
+            <p>No weight logs today.</p>
+        {% endfor %}
+    </div>
+
+    <div class="section">
+        <h3>Your Trainees</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Send Recommendation</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for trainee in trainees %}
+                    <tr>
+                        <td>{{ trainee.user.username }}</td>
+                        <td><a href="{% url 'push_recommendation' trainee.id %}" class="signup-link">Send</a></td>
+                    </tr>
+                {% empty %}
+                    <tr><td colspan="2">No trainees assigned.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <a href="{% url 'trainer_workouts' %}" class="signup-link">Workout Summary</a> |
+        <a href="{% url 'trainer_attendance' %}" class="signup-link">View Attendance</a>
+    </div>
+
+    <div class="signup-section" style="margin-top: 30px;">
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn">Logout</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

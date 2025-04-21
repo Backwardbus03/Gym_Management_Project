@@ -1,0 +1,36 @@
+{% extends 'users/base.html' %}
+{% block title %}Attendance{% endblock %}
+{% block content %}
+<div class="login-box">
+    <h2>Attendance Overview</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Trainee</th>
+                <th>Attendance %</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in attendance_data %}
+            <tr>
+                <td>{{ item.trainee.user.username }}</td>
+                <td>
+                    {% if item.attendance_percent is not None %}
+                      {{ item.attendance_percent }}%
+                    {% else %}
+                      0%
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2">No trainees to show attendance for.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="signup-section">
+        <a href="{% url 'trainer_dashboard' %}" class="signup-link">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'users/base.html' %}
+{% block title %}Send Recommendation{% endblock %}
+{% block content %}
+<div class="login-box">
+    <h2>Send Recommendation to {{ trainee.user.username }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <textarea name="message" rows="4" cols="50" placeholder="Write your recommendation here..." required></textarea>
+        <br>
+        <button class="btn" type="submit">Send</button>
+    </form>
+    <div class="signup-section">
+        <a href="{% url 'trainer_dashboard' %}" class="signup-link">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}
