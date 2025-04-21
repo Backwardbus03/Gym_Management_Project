@@ -1,16 +1,204 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Choose Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Gym Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: radial-gradient(circle at 2px 2px, #252525 2px, transparent 0);
+            background-size: 40px 40px;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1400px;
+            width: 100%;
+            height: 75vh;
+            min-height: 700px;
+            background-color: #232323;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+
+        .panel {
+            width: 50%;
+            padding: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .trainer {
+            border-right: 2px solid #303030;
+        }
+
+        .tag {
+            background-color: #ff6c0e;
+            color: #000;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 48px;
+        }
+
+        h2 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 32px;
+            color: #ffffff;
+        }
+
+        h2 span {
+            color: #ff6c0e;
+            font-style: italic;
+        }
+
+        p {
+            font-size: 22px;
+            line-height: 1.7;
+            color: #cccccc;
+            margin-bottom: 56px;
+            max-width: 500px;
+        }
+
+        .login-btn {
+            background-color: #ff6c0e;
+            color: #000;
+            text-decoration: none;
+            padding: 20px 60px;
+            border-radius: 8px;
+            font-size: 22px;
+            font-weight: 600;
+            display: inline-block;
+            min-width: 200px;
+            margin-bottom: 48px;
+            transition: background-color 0.2s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #ff8839;
+            transform: translateY(-2px);
+        }
+
+        .login-btn.alt {
+            background-color: transparent;
+            color: #ff6c0e;
+            border: 2px solid #ff6c0e;
+        }
+
+        .login-btn.alt:hover {
+            background-color: rgba(255, 108, 14, 0.1);
+        }
+
+        .footer {
+            font-size: 18px;
+            color: #999999;
+        }
+
+        .footer a {
+            color: #ff6c0e;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                height: auto;
+                min-height: 600px;
+            }
+
+            .panel {
+                padding: 60px;
+            }
+
+            h2 {
+                font-size: 46px;
+            }
+
+            p {
+                font-size: 20px;
+            }
+
+            .login-btn {
+                padding: 16px 48px;
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                min-height: auto;
+                height: auto;
+            }
+
+            .panel {
+                width: 100%;
+                border-right: none;
+                padding: 48px;
+            }
+
+            .trainer {
+                border-bottom: 2px solid #303030;
+            }
+
+            h2 {
+                font-size: 38px;
+            }
+
+            p {
+                font-size: 18px;
+            }
+
+            .login-btn {
+                padding: 14px 40px;
+                font-size: 18px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h2>Welcome to Gym Management</h2>
-    <p>Please choose your role to login or sign up:</p>
+    <div class="container">
+        <div class="panel trainer">
+            <div class="tag">TRAINER</div>
+            <h2>For <span>Trainers</span></h2>
+            <p>Manage trainees, create routines, and track progress easily.</p>
+            <a href="{% url 'trainer_login' %}" class="login-btn">Login</a>
+            <p class="footer">Don't have an account?<br><a href="{% url 'trainer_signup' %}">Contact admin</a></p>
+        </div>
 
-    <a href="{% url 'trainer_login' %}">Trainer Login</a> |
-    <a href="{% url 'trainer_signup' %}">Trainer Signup</a>
-    <br><br>
-    <a href="{% url 'trainee_login' %}">Trainee Login</a> |
-    <a href="{% url 'trainee_signup' %}">Trainee Signup</a>
+        <div class="panel trainee">
+            <div class="tag">TRAINEE</div>
+            <h2>For <span>Trainees</span></h2>
+            <p>Track your goals, access your routines, and stay consistent.</p>
+            <a href="{% url 'trainee_login' %}" class="login-btn alt">Login</a>
+            <p class="footer">Don't have an account?<br><a href="{% url 'trainee_signup' %}">Sign up</a></p>
+        </div>
+    </div>
 </body>
 </html>
