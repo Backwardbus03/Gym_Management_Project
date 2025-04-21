@@ -8,23 +8,17 @@
             <tr>
                 <th>Trainee</th>
                 <th>Attendance</th>
-                <th>Percentage</th>
             </tr>
         </thead>
         <tbody>
             {% for item in attendance_data %}
             <tr>
                 <td>{{ item.trainee.user.username }}</td>
-                <td class="progress-cell">
-                    <div class="progress-container">
-                        <div class="progress-bar" style="width: {% if item.attendance_percent is not None %}{{ item.attendance_percent }}{% else %}0{% endif %}%"></div>
-                    </div>
-                </td>
-                <td class="percentage-cell">
-                    {% if item.attendance_percent is not None %}
-                      {{ item.attendance_percent }}%
+                <td class="present-cell">
+                    {% if item.attendance_percent is not False %}
+                      ✔ Present
                     {% else %}
-                      0%
+                      ❌ Absent
                     {% endif %}
                 </td>
             </tr>
@@ -50,7 +44,7 @@
     .attendance-table th,
     .attendance-table td {
         padding: 12px;
-        text-align: left;
+        text-align: center;
         border-bottom: 1px solid #555;
     }
 

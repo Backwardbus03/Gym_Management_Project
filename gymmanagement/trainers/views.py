@@ -4,9 +4,10 @@ from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django import forms
 from users.models import CustomUser
-from trainees.models import Trainee
-from .models import *
+from trainees.models import Trainee, Activity, WeightLog
+from .models import Trainer, Recommendation
 from django.core.exceptions import ValidationError
+from django.utils.timezone import now
 
 
 class TrainerSignupForm(forms.Form):
@@ -112,16 +113,13 @@ def workout_summary(request):
     trainer = get_object_or_404(Trainer, user=request.user)
 
     # Get all activities from trainer’s assigned trainees
-    trainees = trainer.get_assigned_trainees()
-    activities = Activity.objects.filter(trainee__in=trainees).order_by('-date')
+    activities = trainer.get_todays_activities()
+    workouts = trainer.get_todays_weight_logs()
 
     return render(request, 'trainers/workout_summary.html', {
-        'activities': activities,
-        'trainer': trainer,
+            "activities": activities,
+            "workouts": workouts,
     })
-
-from django.utils.timezone import now
-from .models import Activity, WeightLog
 
 @login_required
 def view_attendance(request):
@@ -133,8 +131,8 @@ def view_attendance(request):
     # Check if each trainee has an activity or weight log for today
     attendance_data = []
     for trainee in trainees:
-        has_activity = Activity.objects.filter(trainee=trainee, date=today).exists()
-        has_weight = WeightLog.objects.filter(trainee=trainee, date=today).exists()
+        has_activity = Activity.objects.filter(date=today).exists()
+        has_weight = WeightLog.objects.filter(date=today).exists()
         attendance_data.append({
             'trainee': trainee,
             'present': has_activity or has_weight,

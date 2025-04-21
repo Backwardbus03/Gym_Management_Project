@@ -7,6 +7,11 @@
     {% for activity in activities %}
         <li>{{ activity.date }} - {{ activity.trainee.user.username }}: {{ activity.name }} for {{ activity.duration_minutes }} mins</li>
     {% empty %}
+        <li>No activities found.</li>
+    {% endfor %}
+    {% for workout in workouts %}
+        <li>{{ workout.date }} - {{ workout.trainee.user.username }}: Lifted weights of {{ workout.weight_kg}} in kgs</li>
+    {% empty %}
         <li>No workouts found.</li>
     {% endfor %}
     </ul>
