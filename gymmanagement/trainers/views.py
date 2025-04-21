@@ -112,13 +112,18 @@ def push_recommendation(request, trainee_id):
 def workout_summary(request):
     trainer = get_object_or_404(Trainer, user=request.user)
 
-    # Get all activities from trainer’s assigned trainees
-    activities = trainer.get_todays_activities()
-    workouts = trainer.get_todays_weight_logs()
+    # Get all trainees assigned to this trainer
+    trainees = trainer.get_assigned_trainees()
+
+    # Get all activities for these trainees (not just today)
+    activities = Activity.objects.filter(trainee__in=trainees)
+
+    # Get all weight logs for these trainees (not just today)
+    workouts = WeightLog.objects.filter(trainee__in=trainees)
+    combined = list(sorted(zip(activities, workouts), key=lambda x: x[0].date))
 
     return render(request, 'trainers/workout_summary.html', {
-            "activities": activities,
-            "workouts": workouts,
+        "combined": combined,
     })
 
 @login_required
@@ -160,3 +165,24 @@ def workout_summary(request):
     return render(request, 'trainers/workout_summary.html', {
         "combined": combined,
     })
+
+
+@login_required
+def delete_recommendation(request, recommendation_id):
+    trainer = get_object_or_404(Trainer, user=request.user)
+    recommendation = get_object_or_404(Recommendation, id=recommendation_id, trainer=trainer)
+
+    if request.method == 'POST':
+        trainee_name = recommendation.trainee.user.username
+        recommendation.delete()
+        messages.success(request, f"Recommendation to {trainee_name} has been deleted.")
+        return redirect('view_recommendations')
+
+    return render(request, 'trainers/delete_recommendation.html', {'recommendation': recommendation})
+
+
+@login_required
+def view_recommendations(request):
+    trainer = get_object_or_404(Trainer, user=request.user)
+    recommendations = Recommendation.objects.filter(trainer=trainer).order_by('-created_at')
+    return render(request, 'trainers/view_recommendations.html', {'recommendations': recommendations})

@@ -1,0 +1,22 @@
+{% extends 'users/base.html' %}
+{% block title %}Delete Recommendation{% endblock %}
+
+{% block content %}
+<div class="login-box">
+    <h2>Delete Recommendation</h2>
+    <div class="alert-box">
+        <p>Are you sure you want to delete this recommendation to <strong>{{ recommendation.trainee.user.username }}</strong>?</p>
+        <p><strong>Date:</strong> {{ recommendation.created_at|date:"Y-m-d" }}</p>
+        <p><strong>Message:</strong> {{ recommendation.message }}</p>
+    </div>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete Recommendation</button>
+    </form>
+    
+    <div class="signup-section">
+        <a href="{% url 'view_recommendations' %}" class="signup-link">Cancel</a>
+    </div>
+</div>
+{% endblock %}

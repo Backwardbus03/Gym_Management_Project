@@ -1,0 +1,21 @@
+{% extends 'users/base.html' %}
+{% block title %}Delete Weight Log{% endblock %}
+
+{% block content %}
+<div class="login-box">
+    <h2>Delete Weight Log</h2>
+    <div class="alert-box">
+        <p>Are you sure you want to delete this weight log?</p>
+        <p><strong>{{ weight_log.date }} - {{ weight_log.weight_kg }} kg</strong></p>
+    </div>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete Weight Log</button>
+    </form>
+    
+    <div class="signup-section">
+        <a href="{% url 'view_weight_logs' %}" class="signup-link">Cancel</a>
+    </div>
+</div>
+{% endblock %}

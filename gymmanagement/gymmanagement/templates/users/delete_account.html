@@ -1,0 +1,36 @@
+<!-- users/templates/users/delete_account.html -->
+{% extends 'users/base.html' %}
+{% block title %}Delete Account{% endblock %}
+
+{% block content %}
+<div class="login-box">
+    <h2>Delete Your Account</h2>
+    <div class="alert-box">
+        <p><strong>Warning:</strong> This action cannot be undone!</p>
+        <p>Deleting your account will permanently remove all your data from our system.</p>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="user-box">
+            <label>
+                <input type="checkbox" name="confirm_delete" value="yes" required>
+                I understand this will permanently delete my account
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-danger">Delete Account</button>
+    </form>
+
+    <div class="signup-section">
+        <a href="{% if user.role == 'trainee' %}{% url 'trainee_dashboard' %}{% elif user.role == 'trainer' %}{% url 'trainer_dashboard' %}{% else %}{% url 'home' %}{% endif %}" class="signup-link">Cancel</a>
+    </div>
+</div>
+{% endblock %}
+
+<!-- Add to base templates to include the delete account option -->
+<!-- In users/templates/users/base.html -->
+<!-- Add in the appropriate location, such as a dropdown menu or footer: -->
+<div class="account-actions">
+    <a href="{% url 'delete_account' %}">Delete Account</a>
+</div>

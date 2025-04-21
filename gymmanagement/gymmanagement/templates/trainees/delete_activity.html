@@ -1,0 +1,21 @@
+{% extends 'users/base.html' %}
+{% block title %}Delete Activity{% endblock %}
+
+{% block content %}
+<div class="login-box">
+    <h2>Delete Activity</h2>
+    <div class="alert-box">
+        <p>Are you sure you want to delete this activity?</p>
+        <p><strong>{{ activity.date }} - {{ activity.name }} ({{ activity.duration_minutes }} mins)</strong></p>
+    </div>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete Activity</button>
+    </form>
+    
+    <div class="signup-section">
+        <a href="{% url 'view_activities' %}" class="signup-link">Cancel</a>
+    </div>
+</div>
+{% endblock %}

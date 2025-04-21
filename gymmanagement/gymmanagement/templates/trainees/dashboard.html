@@ -25,13 +25,21 @@
     </div>
 
     <div class="section">
-        <h3>Today’s Recommendation</h3>
+        <h3>Today's Recommendation</h3>
         <p>{{ recommendation }}</p>
     </div>
 
     <div class="signup-section">
         <a href="{% url 'log_activity' %}" class="signup-link">Log Activity</a> |
-        <a href="{% url 'log_weight' %}" class="signup-link">Log Weight</a>
+        <a href="{% url 'log_weight' %}" class="signup-link">Log Weight</a> |
+        <a href="{% url 'log_calories' %}" class="signup-link">Log Calories</a> |
+        <a href="{% url 'view_workout_target' %}" class="signup-link">Workout Targets</a>
+    </div>
+
+    <div class="signup-section">
+        <a href="{% url 'view_activities' %}" class="signup-link">My Activities</a> |
+        <a href="{% url 'view_weight_logs' %}" class="signup-link">Weight History</a> |
+        <a href="{% url 'view_calorie_log' %}" class="signup-link">Calorie History</a>
     </div>
 
     <div class="signup-section" style="margin-top: 30px;">
@@ -39,6 +47,7 @@
             {% csrf_token %}
             <button type="submit" class="btn">Logout</button>
         </form>
+        <a href="{% url 'delete_account' %}" class="btn btn-danger" style="margin-top: 10px;">Delete Account</a>
     </div>
 </div>
 {% endblock %}

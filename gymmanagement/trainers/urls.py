@@ -8,4 +8,6 @@ urlpatterns = [
     path('recommend/<int:trainee_id>/', views.push_recommendation, name='push_recommendation'),
     path('workouts/', views.workout_summary, name='trainer_workouts'),
     path('attendance/', views.view_attendance, name='trainer_attendance'),
+    path('recommendations/', views.view_recommendations, name='view_recommendations'),
+    path('recommendations/delete/<int:recommendation_id>/', views.delete_recommendation, name='delete_recommendation'),
 ]

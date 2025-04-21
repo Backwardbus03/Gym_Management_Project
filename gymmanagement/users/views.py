@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -51,3 +52,26 @@ def user_logout(request):
 
 def index(request):
     return render(request, 'users/home.html')
+
+@login_required
+def delete_account(request):
+    if request.method == 'POST':
+        if request.POST.get('confirm_delete') == 'yes':
+            # Store username for confirmation message
+            username = request.user.username
+
+            # Log the user out first
+            user = request.user
+            logout(request)
+
+            # Delete the user account
+            user.delete()
+
+            # Show success message
+            messages.success(request, f"Account '{username}' has been permanently deleted.")
+            return redirect('home')  # Redirect to home page
+        else:
+            # User didn't confirm deletion
+            return redirect('dashboard')  # Redirect back to dashboard
+
+    return render(request, 'users/delete_account.html')

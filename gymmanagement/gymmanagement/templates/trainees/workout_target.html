@@ -1,0 +1,31 @@
+{% extends 'users/base.html' %}
+{% block title %}Workout Target{% endblock %}
+
+{% block content %}
+<div class="login-box">
+    <h2>Your Workout Target</h2>
+    
+    {% if target %}
+        <div class="section">
+            <p>Weekly Minutes Target: <strong>{{ target.weekly_minutes }}</strong></p>
+            <p>Daily Calorie Target: <strong>{{ target.target_calories }}</strong></p>
+            {% if target.target_weight %}
+                <p>Target Weight: <strong>{{ target.target_weight }} kg</strong></p>
+            {% endif %}
+        </div>
+        
+        <div class="signup-section">
+            <a href="{% url 'update_workout_target' %}" class="signup-link">Update Target</a>
+        </div>
+    {% else %}
+        <p>No workout target set yet.</p>
+        <div class="signup-section">
+            <a href="{% url 'create_workout_target' %}" class="signup-link">Set Target</a>
+        </div>
+    {% endif %}
+    
+    <div class="signup-section">
+        <a href="{% url 'trainee_dashboard' %}" class="signup-link">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

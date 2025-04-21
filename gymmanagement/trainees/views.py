@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django import forms
@@ -6,7 +6,7 @@ from users.models import CustomUser
 from trainers.models import Recommendation
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
-from .models import Trainee, Activity, WorkoutTarget, WeightLog
+from .models import Trainee, Activity, WorkoutTarget, WeightLog, CalorieLog
 from django.contrib.auth.decorators import login_required
 from datetime import timedelta, date
 from .forms import *
@@ -146,3 +146,138 @@ def log_weight(request):
     else:
         form = WeightLogForm()
     return render(request, 'trainees/log_weight.html', {'form': form})
+
+
+@login_required
+def view_workout_target(request):
+    trainee = get_object_or_404(Trainee, user=request.user)
+    target = WorkoutTarget.objects.filter(trainee=trainee).first()
+    return render(request, 'trainees/workout_target.html', {
+        'target': target
+    })
+
+
+@login_required
+def create_workout_target(request):
+    trainee = get_object_or_404(Trainee, user=request.user)
+
+    # Check if target already exists
+    if WorkoutTarget.objects.filter(trainee=trainee).exists():
+        return redirect('view_workout_target')
+
+    if request.method == 'POST':
+        weekly_minutes = request.POST.get('weekly_minutes')
+        target_calories = request.POST.get('target_calories')
+        target_weight = request.POST.get('target_weight') or None
+
+        WorkoutTarget.objects.create(
+            trainee=trainee,
+            weekly_minutes=weekly_minutes,
+            target_calories=target_calories,
+            target_weight=target_weight
+        )
+        return redirect('view_workout_target')
+
+    return render(request, 'trainees/create_workout_target.html')
+
+
+@login_required
+def update_workout_target(request):
+    trainee = get_object_or_404(Trainee, user=request.user)
+    target = get_object_or_404(WorkoutTarget, trainee=trainee)
+
+    if request.method == 'POST':
+        target.weekly_minutes = request.POST.get('weekly_minutes')
+        target.target_calories = request.POST.get('target_calories')
+        target.target_weight = request.POST.get('target_weight') or None
+        target.save()
+        return redirect('view_workout_target')
+
+    return render(request, 'trainees/update_workout_target.html', {
+        'target': target
+    })
+
+
+@login_required
+def view_calorie_log(request):
+    trainee = get_object_or_404(Trainee, user=request.user)
+    calorie_logs = CalorieLog.objects.filter(trainee=trainee).order_by('-date')
+    return render(request, 'trainees/calorie_log.html', {
+        'calorie_logs': calorie_logs
+    })
+
+
+@login_required
+def log_calories(request):
+    trainee = get_object_or_404(Trainee, user=request.user)
+
+    if request.method == 'POST':
+        calories_burned = request.POST.get('calories_burned')
+        calories_consumed = request.POST.get('calories_consumed')
+
+        CalorieLog.objects.create(
+            trainee=trainee,
+            calories_burned=calories_burned,
+            calories_consumed=calories_consumed
+        )
+        return redirect('view_calorie_log')
+
+    return render(request, 'trainees/log_calories.html')
+
+
+@login_required
+def delete_activity(request, activity_id):
+    trainee = request.user.trainee_profile
+    activity = get_object_or_404(Activity, id=activity_id, trainee=trainee)
+
+    if request.method == 'POST':
+        activity_name = activity.name
+        activity.delete()
+        messages.success(request, f"Activity '{activity_name}' has been deleted.")
+        return redirect('view_activities')
+
+    return render(request, 'trainees/delete_activity.html', {'activity': activity})
+
+
+@login_required
+def delete_weight_log(request, log_id):
+    trainee = request.user.trainee_profile
+    weight_log = get_object_or_404(WeightLog, id=log_id, trainee=trainee)
+
+    if request.method == 'POST':
+        date = weight_log.date
+        weight_log.delete()
+        messages.success(request, f"Weight log from {date} has been deleted.")
+        return redirect('view_weight_logs')
+
+    return render(request, 'trainees/delete_weight_log.html', {'weight_log': weight_log})
+
+
+@login_required
+def delete_calorie_log(request, log_id):
+    trainee = request.user.trainee_profile
+    calorie_log = get_object_or_404(CalorieLog, id=log_id, trainee=trainee)
+
+    if request.method == 'POST':
+        date = calorie_log.date
+        calorie_log.delete()
+        messages.success(request, f"Calorie log from {date} has been deleted.")
+        return redirect('view_calorie_log')
+
+    return render(request, 'trainees/delete_calorie_log.html', {'calorie_log': calorie_log})
+
+
+# Add view for activities list
+@login_required
+def view_activities(request):
+    trainee = request.user.trainee_profile
+    activities = Activity.objects.filter(trainee=trainee).order_by('-date')
+    return render(request, 'trainees/view_activities.html', {'activities': activities})
+
+
+# Add view for weight logs list
+@login_required
+def view_weight_logs(request):
+    trainee = request.user.trainee_profile
+    weight_logs = WeightLog.objects.filter(trainee=trainee).order_by('-date')
+    return render(request, 'trainees/view_weight_logs.html', {'weight_logs': weight_logs})

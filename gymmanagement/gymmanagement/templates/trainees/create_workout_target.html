@@ -1,0 +1,30 @@
+{% extends 'users/base.html' %}
+{% block title %}Create Workout Target{% endblock %}
+
+{% block content %}
+<div class="login-box">
+    <h2>Create Workout Target</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="user-box">
+            <label>Weekly Minutes Target</label>
+            <input type="number" name="weekly_minutes" required>
+        </div>
+        <div class="user-box">
+            <label>Daily Calorie Target</label>
+            <input type="number" name="target_calories" step="0.01" required>
+        </div>
+        <div class="user-box">
+            <label>Target Weight (kg) (optional)</label>
+            <input type="number" name="target_weight" step="0.01">
+        </div>
+        
+        <button type="submit" class="btn">Save Target</button>
+    </form>
+    
+    <div class="signup-section">
+        <a href="{% url 'view_workout_target' %}" class="signup-link">Cancel</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'users/base.html' %}
+{% block title %}Log Calories{% endblock %}
+
+{% block content %}
+<div class="login-box">
+    <h2>Log Calories</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="user-box">
+          <label>Calories Burned</label>
+          <input type="number" name="calories_burned" step="0.01" required>
+        </div>
+        <div class="user-box">
+          <label>Calories Consumed</label>
+          <input type="number" name="calories_consumed" step="0.01" required>
+        </div>
+        
+        <button type="submit" class="btn">Save Log</button>
+    </form>
+    
+    <div class="signup-section">
+        <a href="{% url 'view_calorie_log' %}" class="signup-link">Cancel</a>
+    </div>
+</div>
+{% endblock %}

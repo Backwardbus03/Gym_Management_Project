@@ -1,0 +1,21 @@
+{% extends 'users/base.html' %}
+{% block title %}Delete Calorie Log{% endblock %}
+
+{% block content %}
+<div class="login-box">
+    <h2>Delete Calorie Log</h2>
+    <div class="alert-box">
+        <p>Are you sure you want to delete this calorie log?</p>
+        <p><strong>{{ calorie_log.date }} - Burned: {{ calorie_log.calories_burned }}, Consumed: {{ calorie_log.calories_consumed }}</strong></p>
+    </div>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete Calorie Log</button>
+    </form>
+    
+    <div class="signup-section">
+        <a href="{% url 'view_calorie_log' %}" class="signup-link">Cancel</a>
+    </div>
+</div>
+{% endblock %}
