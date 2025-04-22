@@ -4,7 +4,7 @@ from users.models import CustomUser
 
 
 class Trainee(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.SET_NULL, null=True, related_name='trainee_profile')
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True, related_name='trainee_profile')
     trainer = models.ForeignKey(
         CustomUser,
         null=True,
@@ -17,6 +17,9 @@ class Trainee(models.Model):
     def clean(self):
         if self.user.role.lower() != 'trainee':
             raise ValidationError('Only users with role "trainee" can have a TraineeProfile.')
+
+    def __str__(self):
+        return f"Trainee: {self.user.username}" if self.user else "Trainee (no user)"
 
 
 class Activity(models.Model):
