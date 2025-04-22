@@ -4,7 +4,7 @@ from users.models import CustomUser
 from django.utils.timezone import now
 
 class Trainer(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.SET_NULL, related_name='trainer_profile', null=True)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='trainer_profile', null=True)
     age = models.IntegerField(default=0)
     experience = models.IntegerField(default=0)
     specialisation = models.CharField(max_length=100)
