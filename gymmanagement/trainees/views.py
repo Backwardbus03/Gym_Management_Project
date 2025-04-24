@@ -202,8 +202,10 @@ def update_workout_target(request):
 def view_calorie_log(request):
     trainee = get_object_or_404(Trainee, user=request.user)
     calorie_logs = CalorieLog.objects.filter(trainee=trainee).order_by('-date')
+    calorie_difference = [log.calories_consumed - log.calories_burned for log in calorie_logs]
+    calorie_logs = zip(calorie_logs, calorie_difference)
     return render(request, 'trainees/calorie_log.html', {
-        'calorie_logs': calorie_logs
+        'calorie_logs': calorie_logs,
     })
 
 

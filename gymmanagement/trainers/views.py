@@ -136,8 +136,8 @@ def view_attendance(request):
     # Check if each trainee has an activity or weight log for today
     attendance_data = []
     for trainee in trainees:
-        has_activity = Activity.objects.filter(date=today).exists()
-        has_weight = WeightLog.objects.filter(date=today).exists()
+        has_activity = Activity.objects.filter(date=today, trainee=trainee).exists()
+        has_weight = WeightLog.objects.filter(date=today, trainee=trainee).exists()
         attendance_data.append({
             'trainee': trainee,
             'present': has_activity or has_weight,
@@ -160,7 +160,7 @@ def workout_summary(request):
 
     # Get all weight logs for these trainees (not just today)
     workouts = WeightLog.objects.filter(trainee__in=trainees)
-    combined = list(sorted(zip(activities, workouts), key=lambda x: x[0].date))
+    combined = list(sorted(zip(activities, workouts), key=lambda x: x[0].date, reverse=True))
 
     return render(request, 'trainers/workout_summary.html', {
         "combined": combined,

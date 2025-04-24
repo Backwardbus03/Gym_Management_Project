@@ -15,7 +15,7 @@
             <tr>
                 <td>{{ item.trainee.user.username }}</td>
                 <td class="present-cell">
-                    {% if item.attendance_percent is not False %}
+                    {% if item.present %}
                       ✔ Present
                     {% else %}
                       ❌ Absent

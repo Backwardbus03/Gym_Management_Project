@@ -17,12 +17,12 @@
                 </tr>
             </thead>
             <tbody>
-                {% for log in calorie_logs %}
+                {% for log, cal_diff in calorie_logs %}
                 <tr>
                     <td>{{ log.date }}</td>
                     <td>{{ log.calories_burned }}</td>
                     <td>{{ log.calories_consumed }}</td>
-                    <td>{{ log.calories_consumed|add:"-"|add:log.calories_burned }}</td>
+                    <td>{{ cal_diff }}</td>
                     <td>
                         <a href="{% url 'delete_calorie_log' log.id %}" class="delete-link">Delete</a>
                     </td>
